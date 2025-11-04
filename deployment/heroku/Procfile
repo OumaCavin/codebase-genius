@@ -1,0 +1,1 @@
+web: cd api-frontend && python start.py start --port $PORT
