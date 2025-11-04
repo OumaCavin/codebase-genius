@@ -1,0 +1,144 @@
+headersOrigin = "config"
+redirectsOrigin = "config"
+functionsDirectory = "/workspace/deployment-package/api-frontend/netlify/functions"
+functionsDirectoryOrigin = "config"
+
+[[edge_functions]]
+function = "api-middleware"
+path = "/api/*"
+
+[functions]
+
+[functions."*"]
+external_node_modules = ["fastapi", "uvicorn", "pydantic", "streamlit", "requests", "gitpython"]
+node_bundler = "esbuild"
+
+[[plugins]]
+origin = "config"
+package = "@netlify/plugin-sitemap"
+
+[plugins.inputs]
+buildDir = "."
+
+[[plugins]]
+origin = "config"
+package = "netlify-plugin-minify-html"
+
+[plugins.inputs]
+contexts = ["production"]
+
+[build]
+publish = "/workspace/deployment-package/api-frontend"
+publishOrigin = "config"
+commandOrigin = "config"
+command = "pip install -r requirements.txt && echo 'Build completed successfully'"
+base = "/workspace/deployment-package/api-frontend"
+functions = "/workspace/deployment-package/api-frontend/netlify/functions"
+
+[build.environment]
+PYTHON_VERSION = "3.11"
+PIP_NO_CACHE_DIR = "true"
+PYTHONPATH = "/opt/buildhome/.local/lib/python3.11/site-packages"
+
+[build.processing]
+skip_processing = false
+
+[build.processing.css]
+bundle = true
+minify = true
+
+[build.processing.html]
+pretty_urls = true
+
+[build.processing.images]
+
+[build.processing.js]
+bundle = true
+minify = true
+
+[build.services]
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+X-Frame-Options = "DENY"
+X-XSS-Protection = "1; mode=block"
+X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src 'none';"
+
+[[headers]]
+for = "/api/*"
+
+[headers.values]
+Access-Control-Allow-Origin = "*"
+Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+Access-Control-Allow-Headers = "Content-Type, Authorization, X-Requested-With, X-CSRF-Token"
+Access-Control-Max-Age = "86400"
+
+[[headers]]
+for = "/static/*"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+from = "/api/v1/*"
+to = "/.netlify/functions/main_api/:splat"
+status = 200.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/main_api/:splat"
+status = 200.0
+force = true
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/static/*"
+to = "/static/:splat"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/health"
+to = "/.netlify/functions/main_api/health"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
