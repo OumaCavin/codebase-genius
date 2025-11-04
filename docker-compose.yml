@@ -1,0 +1,292 @@
+version: '3.8'
+
+services:
+  # Main application service
+  codebase-genius:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_DATE: ${BUILD_DATE:-}
+        VCS_REF: ${VCS_REF:-}
+        VERSION: ${VERSION:-}
+    container_name: codebase-genius-app
+    ports:
+      - "8000:8000"  # API port
+      - "8501:8501"  # Web UI port
+    environment:
+      # Core application settings
+      - ENVIRONMENT=development
+      - PYTHONPATH=/app
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - UI_PORT=8501
+      - LOG_LEVEL=DEBUG
+      - DEBUG=true
+      
+      # Performance settings
+      - MAX_CONCURRENT_WORKFLOWS=3
+      - DEFAULT_TIMEOUT=180
+      - WORKER_PROCESSES=1
+      - WORKER_THREADS=4
+      
+      # Database settings (optional)
+      - DATABASE_URL=${DATABASE_URL:-}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      
+      # Security settings
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:8501
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      
+      # GitHub API (for repository access)
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - GITHUB_API_RATE_LIMIT=60
+      
+      # File storage
+      - STORAGE_TYPE=local
+      - STORAGE_PATH=/app/tmp/workspace
+      - CACHE_DIR=/app/tmp/cache
+      - MAX_REPO_SIZE_MB=500
+      - MAX_FILE_SIZE_MB=10
+      
+      # External API keys
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      
+      # Monitoring and metrics
+      - ENABLE_METRICS=true
+      - METRICS_PORT=8001
+      
+    volumes:
+      # Development volumes - mount source code for hot reloading
+      - ./agents:/app/agents:ro
+      - ./api-frontend:/app/api-frontend:ro
+      - ./integration-testing:/app/integration-testing:ro
+      - ./final-docs:/app/final-docs:ro
+      
+      # Persistent data volumes
+      - logs_data:/app/logs
+      - workspace_data:/app/tmp/workspace
+      - cache_data:/app/tmp/cache
+      - agent_data:/app/agents/agent_data
+      
+      # Development tools
+      - dev_data:/app/dev_data
+      
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    networks:
+      - codebase-genius-dev
+    
+    depends_on:
+      redis:
+        condition: service_healthy
+    
+    # Development-specific settings
+    stdin_open: true
+    tty: true
+    command: >
+      sh -c "
+        echo 'Starting Codebase Genius in development mode...' &&
+        python -c 'import time; time.sleep(2)' &&
+        python api-frontend/start.py start --dev
+      "
+
+  # Redis for caching and session storage
+  redis:
+    image: redis:7-alpine
+    container_name: codebase-genius-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - codebase-genius-dev
+
+  # PostgreSQL database (optional, for production features)
+  postgres:
+    image: postgres:15-alpine
+    container_name: codebase-genius-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=codebase_genius
+      - POSTGRES_USER=codebase_genius
+      - POSTGRES_PASSWORD=codebase_genius_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U codebase_genius"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - database
+
+  # Nginx reverse proxy (for production-like setup)
+  nginx:
+    image: nginx:alpine
+    container_name: codebase-genius-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx/sites:/etc/nginx/conf.d:ro
+      - ./config/nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - codebase-genius
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - proxy
+
+  # Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: codebase-genius-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./config/prometheus/rules:/etc/prometheus/rules:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - monitoring
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: codebase-genius-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - monitoring
+
+  # Elasticsearch for log aggregation
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: codebase-genius-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: unless-stopped
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - logging
+
+  # Kibana for log visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: codebase-genius-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - logging
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: codebase-genius-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    restart: unless-stopped
+    networks:
+      - codebase-genius-dev
+    profiles:
+      - tracing
+
+# Named volumes for persistent data
+volumes:
+  logs_data:
+    driver: local
+  workspace_data:
+    driver: local
+  cache_data:
+    driver: local
+  agent_data:
+    driver: local
+  dev_data:
+    driver: local
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+
+# Custom network
+networks:
+  codebase-genius-dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

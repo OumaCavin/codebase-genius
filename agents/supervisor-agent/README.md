@@ -749,6 +749,6 @@ python -m memory_profiler main.jac
 ---
 
 **Supervisor Agent** - *Phase 6 of Codebase Genius*  
-**Author**: MiniMax Agent  
+**Author**: Cavin Otieno  
 **Generated**: 2025-10-31T07:27:08  
 **Version**: 1.0.0

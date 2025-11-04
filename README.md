@@ -452,7 +452,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **MiniMax AI**: For the exceptional multi-agent AI framework
+- **Open Source Community**: For the incredible AI and development tools
 - **Open Source Community**: For the incredible tools and libraries
 - **Contributors**: For their dedication and valuable contributions
 - **Early Adopters**: For feedback and testing support

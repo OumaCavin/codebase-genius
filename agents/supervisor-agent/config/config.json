@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "description": "Multi-agent orchestration system for coordinating Repository Mapper, Code Analyzer, and DocGenie agents",
     "phase": 6,
-    "author": "MiniMax Agent"
+    "author": "Cavin Otieno"
   },
   "agent_connections": {
     "repository_mapper": {
