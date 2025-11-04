@@ -11,7 +11,7 @@
 
 **Codebase Genius** is a cutting-edge multi-agent AI system that revolutionizes code documentation generation. It transforms any GitHub, GitLab, Bitbucket, or Gitee repository into comprehensive, professional documentation packages across multiple formats (Markdown, HTML, PDF).
 
-🚀 **[View Live Demo](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius)** | 📚 **[Documentation](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/docs/)** | 🐛 **[Report Issues](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/issues)**
+🚀 **[View Live Demo](https://github.com/OumaCavin/codebase-genius)** | 📚 **[Documentation](https://github.com/OumaCavin/codebase-genius/docs/)** | 🐛 **[Report Issues](https://github.com/OumaCavin/codebase-genius/issues)**
 
 ## ✨ Key Features
 
@@ -77,7 +77,7 @@ graph TB
 
 ### 1️⃣ Clone & Setup
 ```bash
-git clone https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius.git
+git clone https://github.com/OumaCavin/codebase-genius.git
 cd codebase-genius
 ```
 
@@ -219,7 +219,7 @@ docker-compose up -d
 ### Production Deployment
 ```bash
 # Clone repository
-git clone https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius.git
+git clone https://github.com/OumaCavin/codebase-genius.git
 cd codebase-genius
 
 # Production build
@@ -261,7 +261,7 @@ docker-compose ps
 ### Environment Setup
 ```bash
 # Clone repository
-git clone https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius.git
+git clone https://github.com/OumaCavin/codebase-genius.git
 cd codebase-genius
 
 # Create virtual environment
@@ -459,9 +459,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support & Contact
 
-- **📚 Documentation**: [docs/](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/docs/)
-- **🐛 Issues**: [GitHub Issues](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/discussions)
+- **📚 Documentation**: [docs/](https://github.com/OumaCavin/codebase-genius/docs/)
+- **🐛 Issues**: [GitHub Issues](https://github.com/OumaCavin/codebase-genius/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/OumaCavin/codebase-genius/discussions)
 - **📧 Email**: support@codebasegenius.ai
 
 ## ⭐ Show Your Support
@@ -479,8 +479,8 @@ If this project helped you, please consider:
 
 **Made with ❤️ by the Codebase Genius Team**
 
-[🌟 Star on GitHub](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius) • 
-[📖 Read the Docs](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/docs/) • 
-[💬 Join Discussions](https://github.com/OumaCavin/Generative-AI-Builds/jac-projects/codebase-genius/discussions)
+[🌟 Star on GitHub](https://github.com/OumaCavin/codebase-genius) • 
+[📖 Read the Docs](https://github.com/OumaCavin/codebase-genius/docs/) • 
+[💬 Join Discussions](https://github.com/OumaCavin/codebase-genius/discussions)
 
 </div>
