@@ -700,6 +700,6 @@ python -m memory_profiler main.jac
 ---
 
 **DocGenie Agent** - *Phase 5 of Codebase Genius*  
-**Author**: MiniMax Agent  
+**Author**: Cavin Otieno  
 **Generated**: 2025-10-31T07:19:41  
 **Version**: 1.0.0

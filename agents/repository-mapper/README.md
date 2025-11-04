@@ -403,6 +403,6 @@ JAC_LOG_LEVEL=DEBUG jac serve main.jac
 
 ---
 
-**Created by:** MiniMax Agent  
+**Author:** Cavin Otieno  
 **Last Updated:** 2025-10-31  
 **Version:** 1.0.0
