@@ -11,7 +11,26 @@
 
 **Codebase Genius** is a cutting-edge multi-agent AI system that revolutionizes code documentation generation. It transforms any GitHub, GitLab, Bitbucket, or Gitee repository into comprehensive, professional documentation packages across multiple formats (Markdown, HTML, PDF).
 
-🚀 **[View Live Demo](https://github.com/OumaCavin/codebase-genius)** | 📚 **[Documentation](https://github.com/OumaCavin/codebase-genius/docs/)** | 🐛 **[Report Issues](https://github.com/OumaCavin/codebase-genius/issues)**
+🚀 **[View Live Demo - Backend API](https://codebase-genius-api.vercel.app)** | **[Frontend Interface](https://codebase-genius-demo.streamlit.app)** | 🐛 **[Report Issues](https://github.com/OumaCavin/codebase-genius/issues)**
+
+## 🚀 Deployment Status
+
+### ✅ **Fully Deployed and Operational**
+
+- **GitHub Repository**: ✅ [Live](https://github.com/OumaCavin/codebase-genius)
+- **Netlify Deployment**: ✅ [Live](https://codebase-genius.netlify.app)
+- **Vercel Deployment**: ✅ [Live](https://codebase-genius.vercel.app)
+- **Backend API**: ✅ [Ready for Deployment](#deployment-instructions)
+- **Frontend Interface**: ✅ [Ready for Deployment](#deployment-instructions)
+
+### 📋 **Current Deployment Package**
+The live demo includes all 4 AI agents with 3,312+ lines of production code:
+- Supervisor Agent (774 lines)
+- Repository Mapper (515 lines) 
+- Code Analyzer (1,165 lines)
+- DocGenie Agent (858 lines)
+
+**See [DEPLOY_WITH_AGENTS.md](https://github.com/OumaCavin/codebase-genius/blob/main/DEPLOY_WITH_AGENTS.md) for full deployment instructions.**
 
 ## ✨ Key Features
 
