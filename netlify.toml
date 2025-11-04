@@ -1,39 +1,29 @@
 [build]
   base = "api-frontend"
-  command = "echo 'Build completed successfully'"
+  command = "pip install -r requirements.txt && echo 'Build completed successfully'"
   publish = "."
 
 [build.environment]
   PYTHON_VERSION = "3.11"
   PIP_NO_CACHE_DIR = "true"
+  PYTHONPATH = "/opt/buildhome/.local/lib/python3.11/site-packages"
 
-# Static file serving
-[[redirects]]
-  from = "/static/*"
-  to = "/static/:splat"
-  status = 200
+# Functions configuration for serverless backend
+[build.processing]
+  skip_processing = false
 
-# API routing
-[[redirects]]
-  from = "/api/*"
-  to = "/api/:splat"
-  status = 200
+[build.processing.css]
+  bundle = true
+  minify = true
 
-# Health check
-[[redirects]]
-  from = "/health"
-  to = "/api/health"
-  status = 200
+[build.processing.js]
+  bundle = true
+  minify = true
 
-# SPA fallback
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[build.processing.html]
+  pretty_urls = true
 
-[functions]
-  "api/main_api" = "api/main_api.py"
-
+# Security headers for all routes
 [[headers]]
   for = "/*"
   [headers.values]
@@ -41,10 +31,70 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-src 'none';"
 
+# API headers with CORS support
 [[headers]]
   for = "/api/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    Access-Control-Allow-Headers = "Content-Type, Authorization, X-Requested-With, X-CSRF-Token"
+    Access-Control-Max-Age = "86400"
+
+# Static assets caching
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# SPA routing and API fallbacks
+[[redirects]]
+  from = "/api/v1/*"
+  to = "/.netlify/functions/main_api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/main_api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/static/*"
+  to = "/static/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/main_api/health"
+  status = 200
+
+# SPA fallback - all other routes go to frontend
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Serverless functions
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["fastapi", "uvicorn", "pydantic", "streamlit", "requests", "gitpython"]
+
+# Edge functions for better performance
+[[edge_functions]]
+  function = "api-middleware"
+  path = "/api/*"
+
+# Plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+  [plugins.inputs]
+    buildDir = "."
+
+[[plugins]]
+  package = "netlify-plugin-minify-html"
+  [plugins.inputs]
+    contexts = ["production"]
