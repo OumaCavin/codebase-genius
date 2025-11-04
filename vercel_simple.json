@@ -1,0 +1,12 @@
+{
+  "name": "codebase-genius-test",
+  "version": 2,
+  "functions": {
+    "api/simple_test.py": {
+      "runtime": "python@3.9"
+    }
+  },
+  "env": {
+    "PYTHON_VERSION": "3.9"
+  }
+}
