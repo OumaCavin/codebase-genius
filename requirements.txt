@@ -1,0 +1,5 @@
+# Vercel Serverless API Requirements
+fastapi==0.104.1
+pydantic==2.5.0
+aiohttp==3.9.1
+mangum==0.17.0
