@@ -15,10 +15,11 @@
 
 3. **Configure Deployment:**
    - **Project Name:** `codebase-genius-api`
-   - **Framework Preset:** Other
+   - **Framework Preset:** Python
    - **Root Directory:** `/` (use root of repository)
-   - **Build Command:** Leave blank (using vercel.json)
+   - **Build Command:** Leave blank (auto-detected)
    - **Output Directory:** Leave blank
+   - **vercel.json:** Already configured with modern format (uses `functions` instead of deprecated `builds`/`routes`)
 
 4. **Environment Variables (Optional):**
    - If deploying full mode: Add `MODE=full`
