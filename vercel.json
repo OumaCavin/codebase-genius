@@ -1,1 +1,164 @@
-{"version": 2, "builds": [{"src": "api-frontend/start.py", "use": "@vercel/python", "config": {"runtime": "python3.11"}}], "routes": [{"src": "/api/(.*)", "dest": "api-frontend/api/$1", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]}, {"src": "/(.*)", "dest": "api-frontend/frontend/$1", "headers": {"Cache-Control": "s-maxage=60"}}], "env": {"PYTHON_VERSION": "3.11", "PIP_NO_CACHE_DIR": "1", "API_HOST": "0.0.0.0", "API_PORT": "8000"}, "functions": {"api-frontend/api/main_api.py": {"runtime": "python3.11"}}, "maxDuration": 30, "rewrites": [{"source": "/api/(.*)", "destination": "/api/$1"}], "headers": [{"source": "/api/(.*)", "headers": [{"key": "Access-Control-Allow-Origin", "value": "*"}, {"key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS"}, {"key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization"}]}]}
+{
+  "version": 2,
+  "name": "codebase-genius",
+  "framework": "python",
+  "buildCommand": "pip install -r requirements.txt",
+  "outputDirectory": ".",
+  "installCommand": "pip install -r requirements.txt",
+  "devCommand": "python start.py start",
+  
+  "builds": [
+    {
+      "src": "api-frontend/start.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.11",
+        "maxLambdaSize": "50mb"
+      }
+    },
+    {
+      "src": "api-frontend/api/main_api.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.11",
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  
+  "routes": [
+    {
+      "src": "/api/v1/(.*)",
+      "dest": "api-frontend/api/main_api.py",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-CSRF-Token"
+      }
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "api-frontend/api/main_api.py",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-CSRF-Token"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "api-frontend/frontend/$1",
+      "headers": {
+        "Cache-Control": "s-maxage=60, stale-while-revalidate"
+      }
+    }
+  ],
+  
+  "functions": {
+    "api-frontend/api/main_api.py": {
+      "runtime": "python3.11",
+      "maxDuration": 30
+    },
+    "api-frontend/start.py": {
+      "runtime": "python3.11",
+      "maxDuration": 30
+    }
+  },
+  
+  "env": {
+    "PYTHON_VERSION": "3.11",
+    "PIP_NO_CACHE_DIR": "1",
+    "API_HOST": "0.0.0.0",
+    "API_PORT": "8000",
+    "ENVIRONMENT": "production",
+    "LOG_LEVEL": "INFO",
+    "MAX_CONCURRENT_WORKFLOWS": "5",
+    "DEFAULT_TIMEOUT": "300",
+    "CACHE_DIR": "/tmp/cache",
+    "WORKSPACE_DIR": "/tmp/workspace"
+  },
+  
+  "build": {
+    "env": {
+      "PYTHON_VERSION": "3.11",
+      "PIP_NO_CACHE_DIR": "1"
+    }
+  },
+  
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, X-Requested-With, X-CSRF-Token"
+        },
+        {
+          "key": "Access-Control-Max-Age",
+          "value": "86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  
+  "redirects": [
+    {
+      "source": "/health",
+      "destination": "/api/v1/health",
+      "statusCode": 200
+    }
+  ],
+  
+  "regions": ["iad1", "sfo1", "lhr1"],
+  
+  "maxDuration": 30,
+  
+  "crons": [
+    {
+      "path": "/api/v1/health",
+      "schedule": "0 */6 * * *"
+    }
+  ],
+  
+  "setup": {
+    "node": "18.x"
+  }
+}

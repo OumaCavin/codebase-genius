@@ -1,0 +1,22 @@
+# Netlify Redirects for Single Page Application
+# These redirects ensure proper routing for both API and frontend
+
+# API routing - all API calls to serverless function
+/api/v1/*  /.netlify/functions/main_api/:splat  200
+/api/*     /.netlify/functions/main_api/:splat  200
+
+# Health check endpoint
+/health    /.netlify/functions/main_api/health  200
+
+# Static file serving
+/static/*  /static/:splat  200
+
+# Catch all SPA routes - everything else goes to index.html
+/*         /index.html    200
+
+# Custom error pages (if needed)
+/404.html  /404.html      200
+/500.html  /500.html      200
+
+# Force HTTPS (optional - enable if you have SSL certificate)
+/*         https://%{HTTP_HOST}%{REQUEST_URI}  301!  protocol=https
