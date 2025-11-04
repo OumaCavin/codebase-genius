@@ -1,0 +1,50 @@
+[build]
+  base = "api-frontend"
+  command = "echo 'Build completed successfully'"
+  publish = "."
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+  PIP_NO_CACHE_DIR = "true"
+
+# Static file serving
+[[redirects]]
+  from = "/static/*"
+  to = "/static/:splat"
+  status = 200
+
+# API routing
+[[redirects]]
+  from = "/api/*"
+  to = "/api/:splat"
+  status = 200
+
+# Health check
+[[redirects]]
+  from = "/health"
+  to = "/api/health"
+  status = 200
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  "api/main_api" = "api/main_api.py"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
