@@ -1,108 +1,16 @@
-<<<<<<< HEAD
-# Codebase Genius Live Demo
-
-This is the live demo deployment for Codebase Genius - an AI-powered multi-agent system for automated codebase documentation generation.
-
-## Architecture
-
-- **Backend**: Vercel Serverless Functions (FastAPI)
-- **Frontend**: Streamlit Cloud
-- **Integration**: RESTful API communication
-
-## Deployment
-
-### Backend (Vercel)
-
-1. Install Vercel CLI:
-```bash
-npm install -g vercel
-```
-
-2. Deploy to Vercel:
-```bash
-cd /workspace/codebase-genius-live-demo
-vercel --prod
-```
-
-3. Note the deployment URL (e.g., `https://your-app.vercel.app`)
-
-### Frontend (Streamlit Cloud)
-
-1. Push this repository to GitHub
-2. Go to https://share.streamlit.io
-3. Connect your GitHub repository
-4. Set environment variable: `API_BASE_URL=<your-vercel-url>`
-5. Deploy
-
-## Configuration
-
-### Environment Variables
-
-**Streamlit Cloud:**
-- `API_BASE_URL`: Your Vercel backend URL (e.g., `https://your-app.vercel.app`)
-
-## API Endpoints
-
-- `GET /` - Root health check
-- `GET /health` - Detailed health check
-- `POST /api/analyze` - Start repository analysis
-- `GET /api/status/{workflow_id}` - Get workflow status
-- `GET /api/workflows` - List all workflows
-- `GET /api/download/{workflow_id}` - Download documentation
-- `DELETE /api/workflows/{workflow_id}` - Delete workflow
-- `GET /api/config` - Get API configuration
-
-## Features
-
-- Multi-agent AI system (4 specialized agents)
-- Repository analysis (GitHub, GitLab, Bitbucket)
-- Documentation generation (Markdown, HTML, PDF)
-- Real-time progress tracking
-- Web interface for easy interaction
-
-## Author
-
-**Cavin Otieno**
-- Email: otienocavin@gmail.com
-- GitHub: https://github.com/OumaCavin/codebase-genius
-
-## License
-
-MIT License
-=======
 # Codebase Genius
 
 ![Codebase Genius Banner](https://img.shields.io/badge/Codebase-Genius-blue?style=for-the-badge&logo=github&logoColor=white)
 ![Multi-Agent AI](https://img.shields.io/badge/Multi--Agent-AI-orange?style=for-the-badge&logo=robot&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 
 ## 🎯 Project Overview
 
-**Codebase Genius** is a cutting-edge multi-agent AI system that revolutionizes code documentation generation. It transforms any GitHub, GitLab, Bitbucket, or Gitee repository into comprehensive, professional documentation packages across multiple formats (Markdown, HTML, PDF).
+**Codebase Genius** is an AI-powered multi-agent system for automated codebase documentation generation. It transforms any GitHub, GitLab, Bitbucket, or Gitee repository into comprehensive, professional documentation packages.
 
-🚀 **[View Live Demo - Backend API](https://codebase-genius-api.vercel.app)** | **[Frontend Interface](https://codebase-genius-demo.streamlit.app)** | 🐛 **[Report Issues](https://github.com/OumaCavin/codebase-genius/issues)**
-
-## 🚀 Deployment Status
-
-### ✅ **Fully Deployed and Operational**
-
-- **GitHub Repository**: ✅ [Live](https://github.com/OumaCavin/codebase-genius)
-- **Netlify Deployment**: ✅ [Live](https://codebase-genius.netlify.app)
-- **Vercel Deployment**: ✅ [Live](https://codebase-genius.vercel.app)
-- **Backend API**: ✅ [Ready for Deployment](#deployment-instructions)
-- **Frontend Interface**: ✅ [Ready for Deployment](#deployment-instructions)
-
-### 📋 **Current Deployment Package**
-The live demo includes all 4 AI agents with 3,312+ lines of production code:
-- Supervisor Agent (774 lines)
-- Repository Mapper (515 lines) 
-- Code Analyzer (1,165 lines)
-- DocGenie Agent (858 lines)
-
-**See [DEPLOY_WITH_AGENTS.md](https://github.com/OumaCavin/codebase-genius/blob/main/DEPLOY_WITH_AGENTS.md) for full deployment instructions.**
+🚀 **[View Live Demo - Streamlit App](https://codebase-genius.streamlit.app/)** | 🐛 **[Report Issues](https://github.com/OumaCavin/codebase-genius/issues)**
 
 ## ✨ Key Features
 
@@ -118,20 +26,10 @@ The live demo includes all 4 AI agents with 3,312+ lines of production code:
 - **Bitbucket** repositories
 - **Gitee** repositories
 
-### 📱 User Interfaces
-- **RESTful API**: Full programmatic access with 8 comprehensive endpoints
-- **Modern Web UI**: Real-time progress tracking with Streamlit
-- **Concurrent Processing**: Handle up to 5 simultaneous documentation workflows
-
 ### 📄 Multi-Format Output
 - **Markdown**: Clean, GitHub-friendly documentation
 - **HTML**: Web-optimized documentation with responsive design
 - **PDF**: Professional, print-ready documentation packages
-
-### 🚀 Production Ready
-- **Docker Containerization**: Complete deployment infrastructure
-- **Health Checks**: Automated monitoring and service validation
-- **Scalable Architecture**: Enterprise-grade performance and reliability
 
 ## 🏗️ System Architecture
 
@@ -159,11 +57,42 @@ graph TB
     UI -.-> Metrics
 ```
 
+## 🚀 Deployment Status
+
+### ✅ **Currently Deployed**
+- **GitHub Repository**: ✅ [Live](https://github.com/OumaCavin/codebase-genius)
+- **Streamlit Frontend**: ✅ [Live](https://codebase-genius.streamlit.app/)
+- **Backend API**: 🔄 Requires Vercel deployment (see below)
+
+### 🔧 **Backend Deployment (Required)**
+To make "API Server: Online", deploy the backend to Vercel:
+
+1. **Install Vercel CLI** (on your local machine):
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Login to Vercel**:
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy to Vercel** (in the project directory):
+   ```bash
+   vercel
+   ```
+
+4. **Update Streamlit Environment Variable**:
+   - Go to https://share.streamlit.io
+   - Click your app: **codebase-genius**
+   - Go to **Settings** → **Environment variables**
+   - Add: `API_BASE_URL=<your-vercel-url>`
+   - Click **Rebroadcast deployment**
+
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.9+
-- Docker (optional)
 - Git
 
 ### 1️⃣ Clone & Setup
@@ -174,32 +103,52 @@ cd codebase-genius
 
 ### 2️⃣ Install Dependencies
 ```bash
-# Using pip
 pip install -r requirements.txt
-
-# Using the startup script
-python start.py install
 ```
 
 ### 3️⃣ Start Services
 ```bash
-# Start all services
-python start.py start
-
-# Or start individually
-python start.py api     # Start API server on port 8000
-python start.py ui      # Start web UI on port 8501
+# Start the application
+python streamlit_app.py
 ```
 
 ### 4️⃣ Access the System
 - **Web Interface**: http://localhost:8501
-- **API Documentation**: http://localhost:8000/docs
-- **API Base URL**: http://localhost:8000/api/v1
+- **API Base URL**: http://localhost:8000 (when running locally)
+
+## 🔧 API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check endpoint |
+| `/api/analyze` | POST | Start repository analysis |
+| `/api/status/{workflow_id}` | GET | Get workflow status |
+| `/api/workflows` | GET | List all workflows |
+| `/api/download/{workflow_id}` | GET | Download documentation |
+| `/api/config` | GET | Get API configuration |
+
+## 📁 Project Structure
+
+```
+codebase-genius/
+├── streamlit_app.py          # Main Streamlit application
+├── api/
+│   ├── index.py             # Vercel serverless entry point
+│   ├── routes.py            # FastAPI routes and handlers
+│   └── handlers/
+│       ├── repository_handler.py    # Repository processing
+│       ├── code_analyzer_handler.py # Code analysis
+│       ├── docgenie_handler.py      # Documentation generation
+│       └── supervisor_handler.py    # Workflow coordination
+├── requirements.txt         # Python dependencies
+├── vercel.json             # Vercel configuration
+└── README.md               # This file
+```
 
 ## 📖 Usage Examples
 
 ### 🌐 Web Interface
-1. Open http://localhost:8501
+1. Open https://codebase-genius.streamlit.app/ or run locally
 2. Enter your repository URL (e.g., `https://github.com/username/repo`)
 3. Select output formats and click "Generate Documentation"
 4. Monitor real-time progress and download results
@@ -208,116 +157,23 @@ python start.py ui      # Start web UI on port 8501
 
 #### Submit Repository
 ```bash
-curl -X POST "http://localhost:8000/api/v1/submit" \
+curl -X POST "https://your-vercel-url.vercel.app/api/analyze" \
   -H "Content-Type: application/json" \
   -d '{
     "repository_url": "https://github.com/username/repo",
-    "formats": ["markdown", "html"],
-    "options": {
-      "include_examples": true,
-      "include_api_docs": true
-    }
+    "output_formats": ["markdown", "html"]
   }'
 ```
 
 #### Check Status
 ```bash
-curl "http://localhost:8000/api/v1/status/{workflow_id}"
+curl "https://your-vercel-url.vercel.app/api/status/{workflow_id}"
 ```
 
 #### Download Documentation
 ```bash
-curl "http://localhost:8000/api/v1/download/{workflow_id}?format=pdf" \
-  --output documentation.pdf
-```
-
-### 🐍 Python Client
-```python
-import requests
-
-# Submit repository
-response = requests.post("http://localhost:8000/api/v1/submit", json={
-    "repository_url": "https://github.com/username/repo",
-    "formats": ["markdown", "html"]
-})
-
-workflow_id = response.json()["workflow_id"]
-
-# Check status
-status = requests.get(f"http://localhost:8000/api/v1/status/{workflow_id}")
-print(status.json())
-
-# Download result
-result = requests.get(f"http://localhost:8000/api/v1/result/{workflow_id}")
-with open("documentation.zip", "wb") as f:
-    f.write(result.content)
-```
-
-### ⚡ JavaScript/Node.js
-```javascript
-const axios = require('axios');
-
-async function generateDocumentation() {
-    // Submit repository
-    const submitResponse = await axios.post('http://localhost:8000/api/v1/submit', {
-        repository_url: 'https://github.com/username/repo',
-        formats: ['markdown', 'html']
-    });
-    
-    const workflowId = submitResponse.data.workflow_id;
-    
-    // Poll for completion
-    while (true) {
-        const statusResponse = await axios.get(`http://localhost:8000/api/v1/status/${workflowId}`);
-        const status = statusResponse.data;
-        
-        if (status.status === 'completed') {
-            const resultResponse = await axios.get(`http://localhost:8000/api/v1/result/${workflowId}`);
-            return resultResponse.data;
-        }
-        
-        await new Promise(resolve => setTimeout(resolve, 5000));
-    }
-}
-```
-
-## 🔧 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/submit` | POST | Submit repository for documentation generation |
-| `/api/v1/status/{workflow_id}` | GET | Check workflow status and progress |
-| `/api/v1/result/{workflow_id}` | GET | Retrieve generated documentation |
-| `/api/v1/download/{workflow_id}` | GET | Download documentation package |
-| `/api/v1/list` | GET | List all workflows |
-| `/api/v1/cleanup/{workflow_id}` | DELETE | Remove workflow and files |
-| `/api/v1/metrics` | GET | System metrics and statistics |
-| `/api/v1/health` | GET | Health check endpoint |
-
-## 🐳 Docker Deployment
-
-### Single Container
-```bash
-docker build -t codebase-genius .
-docker run -p 8000:8000 -p 8501:8501 codebase-genius
-```
-
-### Multi-Service with Docker Compose
-```bash
-docker-compose up -d
-```
-
-### Production Deployment
-```bash
-# Clone repository
-git clone https://github.com/OumaCavin/codebase-genius.git
-cd codebase-genius
-
-# Production build
-docker-compose -f docker-compose.prod.yml up -d
-
-# Check status
-docker-compose ps
+curl "https://your-vercel-url.vercel.app/api/download/{workflow_id}" \
+  --output documentation.zip
 ```
 
 ## 🛠️ Supported Languages & Frameworks
@@ -335,19 +191,7 @@ docker-compose ps
 | **Ruby** | Full parsing | RDoc, classes, modules |
 | **Swift** | Full AST analysis | Swift doc, classes, protocols |
 
-## 📊 Project Statistics
-
-- **📈 Total Lines of Code**: 23,515+
-- **📁 Project Files**: 50 production files
-- **🎯 Phases Completed**: 9/9 (100%)
-- **🤖 AI Agents**: 4 specialized agents
-- **🔌 API Endpoints**: 8 comprehensive endpoints
-- **🌐 Supported Platforms**: 4 major git platforms
-- **📄 Output Formats**: 3 professional formats
-- **🐳 Deployment Methods**: 3 deployment options
-- **⚡ Concurrent Workflows**: Up to 5 simultaneous processes
-
-## 🏗️ Development Setup
+## 🧪 Development
 
 ### Environment Setup
 ```bash
@@ -359,99 +203,29 @@ cd codebase-genius
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install development dependencies
+# Install dependencies
 pip install -r requirements.txt
-pip install -r requirements-dev.txt
 ```
 
 ### Development Commands
 ```bash
-# Start development servers
-python start.py start
+# Start the application
+python streamlit_app.py
 
-# Run tests
-python -m pytest tests/
-
-# Code formatting
-black .
-flake8 .
-
-# Generate documentation
-python scripts/generate_docs.py
+# Start API server locally
+uvicorn api.index:app --reload
 ```
 
-## 🧪 Testing
+## 📚 Documentation
 
-The project includes comprehensive testing across all components:
-
-```bash
-# Run all tests
-python -m pytest tests/ -v
-
-# Run specific test suites
-python -m pytest tests/test_agents/ -v
-python -m pytest tests/test_api/ -v
-python -m pytest tests/test_integration/ -v
-
-# Run with coverage
-python -m pytest tests/ --cov=src/ --cov-report=html
-```
-
-### Test Coverage
-- ✅ **Multi-Agent System**: 40+ test scenarios
-- ✅ **API Endpoints**: All 8 endpoints tested
-- ✅ **Web Interface**: UI component testing
-- ✅ **Integration Tests**: End-to-end workflow testing
-- ✅ **Performance Tests**: Concurrent processing validation
-
-## 📈 Performance & Scalability
-
-### Benchmarks
-- **Repository Processing**: 1-3 minutes average
-- **Documentation Generation**: 10-50 pages per minute
-- **Concurrent Workflows**: Up to 5 simultaneous
-- **Memory Usage**: 512MB - 2GB depending on repository size
-- **API Response Time**: <500ms for most endpoints
-
-### Optimization Features
-- **Smart Caching**: Intelligent repository caching
-- **Concurrent Processing**: Multi-threaded agent execution
-- **Memory Management**: Efficient resource utilization
-- **Error Recovery**: Robust error handling and retry logic
-
-## 📁 Project Structure
-
-```
-codebase-genius/
-├── agents/                          # Multi-agent system implementation
-│   ├── repository-mapper-agent/     # Repository cloning and analysis
-│   ├── code-analyzer-agent/         # Code parsing and CCG construction
-│   ├── docgenie-agent/              # Documentation generation
-│   └── supervisor-agent/            # Workflow orchestration
-├── api-frontend/                    # API and frontend layer
-│   ├── api/                         # FastAPI REST endpoints
-│   ├── frontend/                    # Streamlit web interface
-│   ├── config/                      # Configuration management
-│   ├── utils/                       # Utility functions
-│   └── start.py                     # Unified startup script
-├── integration-testing/             # Comprehensive testing suite
-│   ├── main_test_suite.py          # End-to-end pipeline testing
-│   ├── benchmarks/                  # Performance benchmarking
-│   ├── utils/                       # Testing utilities
-│   └── samples/                     # Test data generation
-├── final-docs/                      # Documentation and guides
-│   ├── setup/                       # Installation guides
-│   ├── guides/                      # User documentation
-│   └── samples/                     # Sample outputs
-├── docs/                            # Project documentation
-└── README.md                        # This file
-```
+- **[User Guide](docs/user-guide.md)**: Comprehensive usage documentation
+- **[API Documentation](docs/api-documentation.md)**: REST API reference
+- **[Deployment Guide](docs/deployment.md)**: Production deployment instructions
 
 ## 🤝 Contributing
 
 We welcome contributions! Here's how to get started:
 
-### Development Workflow
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
 3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
@@ -464,96 +238,16 @@ We welcome contributions! Here's how to get started:
 - Update documentation as needed
 - Ensure all tests pass before submitting PR
 
-### Areas for Contribution
-- 🤖 **New AI Agents**: Add support for new analysis types
-- 🔌 **API Extensions**: Additional endpoints and features
-- 🌐 **Platform Support**: New git hosting platforms
-- 📄 **Output Formats**: Additional documentation formats
-- 🧪 **Testing**: Expand test coverage
-- 📚 **Documentation**: Improve guides and examples
-
-## 📋 Roadmap
-
-### 🎯 Upcoming Features
-- [ ] **Git Integration**: Real-time repository monitoring
-- [ ] **AI Enhancements**: GPT-4 integration for smarter analysis
-- [ ] **Custom Templates**: User-defined documentation templates
-- [ ] **Collaboration**: Multi-user workspace support
-- [ ] **Analytics**: Usage metrics and insights
-- [ ] **Mobile App**: iOS/Android companion app
-- [ ] **Enterprise**: SSO, LDAP, advanced security
-- [ ] **Cloud Deployment**: AWS/GCP/Azure native deployment
-
-### 🔮 Future Vision
-- **Semantic Code Understanding**: Advanced AI-powered code comprehension
-- **Interactive Documentation**: Dynamic, user-driven documentation exploration
-- **Multi-Language AI**: Natural language explanations in multiple languages
-- **Smart Suggestions**: AI-powered improvement recommendations
-
-## 🔒 Security Features
-
-### Input Validation
-- **Repository URL Validation**: Format checking for supported platforms
-- **File Type Filtering**: Safe file extension and content validation
-- **Size Limits**: Configurable maximum repository and file size constraints
-- **Path Security**: Directory traversal prevention
-
-### Resource Protection
-- **Concurrent Limits**: Maximum workflow count enforcement
-- **Timeout Mechanisms**: Automatic workflow termination
-- **Memory Management**: Automatic cleanup and garbage collection
-- **Rate Limiting**: Request throttling to prevent abuse
-
-## 📚 Documentation
-
-### User Guides
-- **[Installation Guide](final-docs/setup/INSTALLATION.md)**: Complete setup instructions
-- **[User Guide](final-docs/guides/user-guide.md)**: Comprehensive usage documentation
-- **[API Documentation](final-docs/guides/api-documentation.md)**: REST API reference
-
-### Sample Outputs
-- **[Python Example](final-docs/samples/requests-sample.md)**: Requests library analysis
-- **[JavaScript Example](final-docs/samples/axios-sample.md)**: Axios library analysis
-- **[Java Example](final-docs/samples/spring-boot-sample.md)**: Spring Boot framework analysis
-
-### Technical Documentation
-- **[Final Project Report](final-docs/FINAL_PROJECT_REPORT.md)**: Complete project overview
-- **[Architecture Guide](final-docs/guides/architecture.md)**: System design details
-
-## 🎖️ Project Achievements
-
-### ✅ Completed Objectives
-1. **Multi-Agent Architecture**: Four specialized agents working cooperatively
-2. **Repository Analysis**: Comprehensive codebase parsing and relationship extraction
-3. **Documentation Generation**: Automated documentation in multiple formats
-4. **User Access**: Complete web interface and REST API
-5. **Quality Assurance**: Comprehensive testing and validation framework
-6. **Production Readiness**: Docker deployment and monitoring
-
-### 🏆 Key Innovations
-- **Chain of Responsibility Pattern**: Elegant multi-agent coordination
-- **Code Context Graph (CCG)**: Advanced code relationship representation
-- **Real-Time Progress Tracking**: Live workflow monitoring
-- **Multi-Dimensional Quality Assessment**: Comprehensive quality validation
-- **Scalable Architecture**: Support for concurrent workflows
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Open Source Community**: For the incredible AI and development tools
-- **Open Source Community**: For the incredible tools and libraries
-- **Contributors**: For their dedication and valuable contributions
-- **Early Adopters**: For feedback and testing support
-
 ## 📞 Support & Contact
 
 - **📚 Documentation**: [docs/](https://github.com/OumaCavin/codebase-genius/docs/)
 - **🐛 Issues**: [GitHub Issues](https://github.com/OumaCavin/codebase-genius/issues)
 - **💬 Discussions**: [GitHub Discussions](https://github.com/OumaCavin/codebase-genius/discussions)
-- **📧 Email**: support@codebasegenius.ai
+- **📧 Email**: otienocavin@gmail.com
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## ⭐ Show Your Support
 
@@ -568,11 +262,10 @@ If this project helped you, please consider:
 
 <div align="center">
 
-**Made with ❤️ by the Codebase Genius Team**
+**Made with ❤️ by Cavin Otieno**
 
 [🌟 Star on GitHub](https://github.com/OumaCavin/codebase-genius) • 
 [📖 Read the Docs](https://github.com/OumaCavin/codebase-genius/docs/) • 
 [💬 Join Discussions](https://github.com/OumaCavin/codebase-genius/discussions)
 
 </div>
->>>>>>> origin/master
