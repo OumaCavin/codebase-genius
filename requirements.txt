@@ -1,5 +1,12 @@
 # Vercel Serverless API Requirements - Python 3.13 Compatible
-fastapi>=0.110.0
-pydantic>=2.20.0
-aiohttp>=3.10.0
-mangum>=0.17.0
+
+fastapi>=0.110.0          # Core web framework
+pydantic>=2.12.3          # Data validation
+aiohttp>=3.10.0           # Async HTTP client
+mangum>=0.17.0            # Vercel adapter
+annotated-types>=0.7.0
+typing_extensions>=4.15.0
+pandas>=2.3.3
+plotly>=6.4.0
+GitPython>=3.1.45
+Jinja2>=3.1.6
