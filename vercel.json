@@ -1,21 +1,12 @@
 {
   "name": "codebase-genius-api",
   "version": 2,
-  "builds": [
-    {
-      "src": "api-frontend/api/main_api.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "api-frontend/api/main_api.py"
-    }
-  ],
   "functions": {
-    "api-frontend/api/main_api.py": {
-      "maxDuration": 60
+    "api/index.py": {
+      "runtime": "python3.9"
     }
+  },
+  "env": {
+    "PYTHON_VERSION": "3.9"
   }
 }
