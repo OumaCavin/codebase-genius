@@ -1,0 +1,19 @@
+# Virtual environments
+venv/
+code-env/
+.env/
+__pycache__/
+*.pyc
+
+# Git files
+.git/
+.gitignore
+
+# Local files
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+# Cache or temp
+node_modules/
