@@ -3,14 +3,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.py",
+      "src": "api-frontend/api/main_api.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "api/index.py"
+      "dest": "api-frontend/api/main_api.py"
     }
-  ]
+  ],
+  "functions": {
+    "api-frontend/api/main_api.py": {
+      "maxDuration": 60
+    }
+  }
 }
